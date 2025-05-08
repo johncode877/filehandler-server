@@ -1,0 +1,20 @@
+version: '3.8'  # Specifies the Docker Compose file format version.
+
+services:
+  backend:
+    build:
+      context: .  # Directory to build Docker image from.
+      dockerfile: Dockerfile  # Dockerfile to use for building the image.
+    ports:
+      - ${FHA_PORT}:8080  # Maps port 8080 in the container to port FHA_PORT on the host.
+    env_file:
+      - .env  # Loads environment variables from the .env file.
+    networks:
+      - filehandler-network  # Connects to the specified network.
+    volumes:
+      - ./src/main/resources/application.properties:/app/application.properties  # Mounts properties file.
+      - ./Uploads:/app/Uploads  
+
+networks:
+  filehandler-network:
+    name: filehandler-network  # Custom network for service communication.
