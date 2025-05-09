@@ -7,7 +7,7 @@ FROM amazoncorretto:21.0.4-alpine3.18
 WORKDIR /app
 
 # Copy the JAR file into the container
-COPY target/filehandler-server-0.0.1-SNAPSHOT.jar app.jar
+COPY target/filehandler-server-1.0.0-SNAPSHOT.jar app.jar
 
 # Expose the port that the application will run on
 EXPOSE 8080

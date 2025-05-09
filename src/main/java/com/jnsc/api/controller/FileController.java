@@ -41,17 +41,17 @@ public class FileController {
     }
 
     // Getting list of filenames that have been uploaded 
-    @GetMapping(value = "/files")
-    public String[] getFiles() {
-        return fileService.getAllFiles();
-    }
+//    @GetMapping(value = "/files")
+//    public String[] getFiles() {
+//        return fileService.getAllFiles();
+//    }
 
     // Downloading a file 
-    @GetMapping(value = "/download/{path:.+}")
-    public ResponseEntity downloadFile(@PathVariable("path") String filename) {
+    @GetMapping(value = "/download/{uuid:.+}")
+    public ResponseEntity downloadFile(@PathVariable("uuid") String uuid) {
 
         // Creating a new InputStreamResource object 
-        InputStreamResource resource = fileService.getFile(filename);
+        InputStreamResource resource = fileService.getFile(uuid);
 
         // Setting up values for contentType and headerValue 
         String contentType = "application/octet-stream";
