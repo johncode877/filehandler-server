@@ -45,7 +45,6 @@ public class FileController {
 //    public String[] getFiles() {
 //        return fileService.getAllFiles();
 //    }
-
     // Downloading a file 
     @GetMapping(value = "/download/{uuid:.+}")
     public ResponseEntity downloadFile(@PathVariable("uuid") String uuid) {
@@ -61,6 +60,16 @@ public class FileController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
                 .body(resource);
+
+    }
+
+    @GetMapping(value = "/info/{uuid:.+}")
+    public ResponseEntity<FileHandlerResponse> getFileInfo(@PathVariable("uuid") String uuid) {
+
+        // Creating a new InputStreamResource object 
+        FileHandlerResponse fileInfo = fileService.getFileInfo(uuid);
+
+        return new ResponseEntity<>(fileInfo, HttpStatus.OK);
 
     }
 

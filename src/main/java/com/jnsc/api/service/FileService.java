@@ -64,16 +64,15 @@ public class FileService {
 
             Date dateRegister = new Date();
 
-            String hashFile = Utils.toHashFromBytes(file.getBytes()); 
-            
+            String hashFile = Utils.toHashFromBytes(file.getBytes());
+
             fileHandlerResponse.setId(uuid);
             fileHandlerResponse.setName(file.getOriginalFilename());
             fileHandlerResponse.setDate(dateRegister.toString());
             fileHandlerResponse.setHash(hashFile);
             fileHandlerResponse.setSize(sizeFile);
-            
+
             //JsonUtils.writeJsonToFile(fileHandlerResponse, baseFilePath, uuid);
-            
             FileDetails fileDetails = new FileDetails();
             fileDetails.setId(uuid);
             fileDetails.setName(file.getOriginalFilename());
@@ -82,17 +81,16 @@ public class FileService {
             fileDetails.setSize(sizeFile);
 
             fileDetailsService.save(fileDetails);
-            
+
             return fileHandlerResponse;
 
         } // Catch block to handle exceptions 
         catch (Exception e) {
             logger.error("Exception", e);
             fileUploadStatus = "Error when uploading file: " + e.getMessage();
-            throw new FileHandlerException(fileUploadStatus,HttpStatus.INTERNAL_SERVER_ERROR );
+            throw new FileHandlerException(fileUploadStatus, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-       
     }
 
     public String[] getAllFiles() {
@@ -120,7 +118,6 @@ public class FileService {
 //        if (!contains) {
 //            throw new FileHandlerException("File Not Found", HttpStatus.NOT_FOUND);
 //        }
-
         // read metadata from db 
         fileDetailsService.get(uuid);
 
@@ -137,6 +134,22 @@ public class FileService {
             //logger.error("Exception", e);
             throw new FileHandlerException("Error to get File", HttpStatus.NOT_FOUND);
         }
+
+    }
+
+    public FileHandlerResponse getFileInfo(String uuid) {
+        FileHandlerResponse fileHandlerResponse = new FileHandlerResponse();
+
+        // read metadata from db 
+        FileDetails fileDetails = fileDetailsService.get(uuid);
+
+        fileHandlerResponse.setId(uuid);
+        fileHandlerResponse.setName(fileDetails.getName());
+        fileHandlerResponse.setDate(fileDetails.getDate().toString());
+        fileHandlerResponse.setHash(fileDetails.getHash());
+        fileHandlerResponse.setSize(fileDetails.getSize());
+        
+        return fileHandlerResponse;
 
     }
 
